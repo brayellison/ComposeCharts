@@ -5,6 +5,7 @@ activityCompose = "1.12.4"
 compose = "1.10.1"
 compose-material3 = "1.9.0"
 maven-publish = "0.35.0"
+kotlinxDatetime = "0.7.1"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -13,6 +14,7 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
 compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

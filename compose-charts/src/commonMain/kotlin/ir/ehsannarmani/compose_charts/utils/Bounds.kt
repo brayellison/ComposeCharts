@@ -1,6 +1,7 @@
 package ir.ehsannarmani.compose_charts.utils
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.TextLayoutResult
 import kotlin.math.PI
 import kotlin.math.cos
@@ -28,6 +29,13 @@ data class Bounds(
         bottom = center.y + height / 2f,
         left = center.x - width / 2f,
         right = center.x + width / 2f
+    )
+
+    constructor(size: Size) : this(
+        top = 0f,
+        left = 0f,
+        bottom = size.height,
+        right = size.width
     )
 
     val width = right - left

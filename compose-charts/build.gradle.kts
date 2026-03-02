@@ -88,6 +88,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.compose.foundation)
+            implementation(libs.kotlinx.datetime)
             // @Preview annotation isn't currently used, if that changes uncomment this line
             // and add a dependency on ui-tooling to the androidDebug variant
             //implementation(libs.compose.ui.tooling.preview)

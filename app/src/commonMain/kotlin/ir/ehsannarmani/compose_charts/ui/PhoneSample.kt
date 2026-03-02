@@ -13,14 +13,16 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ir.ehsannarmani.compose_charts.LineChart
 import ir.ehsannarmani.compose_charts.models.AnimationMode
 import ir.ehsannarmani.compose_charts.models.DotProperties
 import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
 import ir.ehsannarmani.compose_charts.models.IndicatorPosition
 import ir.ehsannarmani.compose_charts.models.LabelProperties
-import ir.ehsannarmani.compose_charts.models.Line
 import ir.ehsannarmani.compose_charts.models.PopupProperties
+import ir.ehsannarmani.compose_charts.models.Values
+import ir.ehsannarmani.compose_charts.ScatterChart
+import ir.ehsannarmani.compose_charts.ValuesChart
+import ir.ehsannarmani.compose_charts.models.Scatter
 
 @Composable
 fun PhoneSample() {
@@ -31,17 +33,17 @@ fun PhoneSample() {
     ) {
         item {
             ChartParent(Modifier) {
-                LineChart(
+                ValuesChart(
                     data = remember {
                         listOf(
-                            Line(
+                            Values(
                                 label = "Test",
-                                values = listOf(5.0),
+                                data = listOf(5.0, 4.0, 3.5, 1.0),
                                 color = SolidColor(Color.Red),
                             ),
-                            Line(
+                            Values(
                                 label = "Test 2",
-                                values = listOf(2.0),
+                                data = listOf(2.0, 3.5, 1.0),
                                 color = SolidColor(Color.Red),
                                 dotProperties = DotProperties(
                                     confirmDraw = {
@@ -75,6 +77,63 @@ fun PhoneSample() {
                     labelProperties = LabelProperties(
                         enabled = true,
                         labels = "these labels will rotate".split(' '),
+                    )
+                )
+            }
+        }
+        item {
+            ChartParent(Modifier) {
+                ScatterChart(
+                    type = Double::class,
+                    labels = listOf(0.5, 2.5, 5.0, 7.0),
+                    data = remember {
+                        listOf(
+                            Scatter(
+                                label = "Test",
+                                data = listOf(
+                                    0.0 to 5.0,
+                                    0.5 to 4.0,
+                                    2.0 to 6.0,
+                                    3.0 to 2.0,
+                                    5.0 to 5.0,
+                                ),
+                                color = SolidColor(Color.Red),
+                            ),
+                            Scatter(
+                                label = "Test 2",
+                                data = listOf(2.0 to 7.0, 7.0 to 2.0),
+                                color = SolidColor(Color.Red),
+                                dotProperties = DotProperties(
+                                    confirmDraw = {
+                                        false
+                                    }
+                                )
+                            ),
+                        )
+                    },
+                    dotsProperties = DotProperties(
+                        enabled = true,
+                        color = SolidColor(Color.White)
+                    ),
+                    modifier = Modifier.padding(22.dp),
+                    animationMode = AnimationMode.None,
+                    minValue = 0.0,
+                    maxValue = 7.0,
+                    popupProperties = PopupProperties(
+                        textStyle = TextStyle.Default.copy(
+                            color = Color.White,
+                            fontSize = 12.sp
+                        ),
+                        confirmDraw = {
+                            false
+                        }
+                    ),
+                    indicatorProperties = HorizontalIndicatorProperties(
+                        indicators = (0..7).map { it.toDouble() } + listOf(5.5),
+                        position = IndicatorPosition.Horizontal.End
+                    ),
+                    labelProperties = LabelProperties(
+                        enabled = true,
                     )
                 )
             }

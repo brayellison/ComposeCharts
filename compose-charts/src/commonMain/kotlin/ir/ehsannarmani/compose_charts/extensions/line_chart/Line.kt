@@ -5,32 +5,25 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import ir.ehsannarmani.compose_charts.utils.calculateOffset
 
-internal data class PathData(
-    val path: Path,
-    val xPositions: List<Double>,
-    val startIndex: Int,
-    val endIndex: Int
-)
-
 sealed class PairedDataSort {
     data object Ascending : PairedDataSort()
     data object Descending : PairedDataSort()
 }
 
 internal fun DrawScope.getLinePath(
-    dataPoints: List<Pair<Float, Float>>,
+    dataPoints: List<Pair<Double, Double>>,
     maxValue: Float,
     minValue: Float,
     rounded: Boolean = true,
     size: Size = this.size,
     sort: PairedDataSort = PairedDataSort.Ascending
-): PathData {
+): Path {
 
     val xValues  = dataPoints.map {p -> p.first}
     val (xMin, xMax) = xValues.let { it.min() to it.max() }
 
     val path = Path()
-    if (dataPoints.isEmpty()) return PathData(path = path, xPositions = emptyList(),0, Int.MAX_VALUE)
+    if (dataPoints.isEmpty()) return path
     val calculateHeight = { value: Float ->
         size.height - calculateOffset(
             maxValue = maxValue.toDouble(),
@@ -41,15 +34,15 @@ internal fun DrawScope.getLinePath(
     }
     val calculateWidth = { value: Float ->
         calculateOffset(
-            maxValue = xMax.toDouble(),
-            minValue = xMin.toDouble(),
+            maxValue = xMax,
+            minValue = xMin,
             total = size.width,
             value = value
         )
     }
 
     val sortedDataPoints = dataPoints.sortedWith(
-        compareBy<Pair<Float, Float>> { it.first }
+        compareBy<Pair<Double, Double>> { it.first }
             .thenBy { if (sort == PairedDataSort.Ascending) it.second else -it.second }
     )
 
@@ -58,8 +51,8 @@ internal fun DrawScope.getLinePath(
     var lastPoint: Pair<Float, Float> = 0f to 0f
     for (i in 0 until sortedDataPoints.size) {
         val (x, y) = sortedDataPoints[i]
-        val height = calculateHeight(y).toFloat()
-        val width = calculateWidth(x).toFloat()
+        val height = calculateHeight(y.toFloat()).toFloat()
+        val width = calculateWidth(x.toFloat()).toFloat()
         if (i == 0) {
             path.moveTo(width, height)
         } else {
@@ -74,5 +67,5 @@ internal fun DrawScope.getLinePath(
         lastPoint = width to height
         xPositions.add(width.toDouble())
     }
-    return PathData(path = path, xPositions = xPositions, 0 , sortedDataPoints.size - 1)
+    return path
 }

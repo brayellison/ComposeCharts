@@ -14,18 +14,16 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ir.ehsannarmani.compose_charts.LineChart
+import ir.ehsannarmani.compose_charts.ValuesChart
 import ir.ehsannarmani.compose_charts.extensions.format
 import ir.ehsannarmani.compose_charts.models.AnimationMode
-import ir.ehsannarmani.compose_charts.models.DividerProperties
 import ir.ehsannarmani.compose_charts.models.DotProperties
+import ir.ehsannarmani.compose_charts.models.Values
 import ir.ehsannarmani.compose_charts.models.DrawStyle
 import ir.ehsannarmani.compose_charts.models.GridProperties
 import ir.ehsannarmani.compose_charts.models.HorizontalIndicatorProperties
 import ir.ehsannarmani.compose_charts.models.LabelHelperProperties
 import ir.ehsannarmani.compose_charts.models.LabelProperties
-import ir.ehsannarmani.compose_charts.models.Line
-import ir.ehsannarmani.compose_charts.models.LineProperties
 import ir.ehsannarmani.compose_charts.models.PopupProperties
 import ir.ehsannarmani.compose_charts.models.StrokeStyle
 import ir.ehsannarmani.compose_charts.models.ZeroLineProperties
@@ -42,20 +40,9 @@ val gridProperties = GridProperties(
         style = StrokeStyle.Dashed(intervals = floatArrayOf(15f,15f), phase = 10f),
     ),
 )
-val dividerProperties = DividerProperties(
-    xAxisProperties = LineProperties(
-        thickness = .2.dp,
-        color = SolidColor(Color.Gray.copy(alpha = .5f)),
-        style = StrokeStyle.Dashed(intervals = floatArrayOf(15f,15f), phase = 10f),
-    ),
-    yAxisProperties = LineProperties(
-        thickness = .2.dp,
-        color = SolidColor(Color.Gray.copy(alpha = .5f)),
-        style = StrokeStyle.Dashed(intervals = floatArrayOf(15f,15f), phase = 10f),
-    )
-)
+
 @Composable
-fun LineSample(modifier: Modifier=Modifier) {
+fun LineSample() {
     val popupProperties = PopupProperties(
         textStyle = TextStyle(
             fontSize = 11.sp,
@@ -69,9 +56,9 @@ fun LineSample(modifier: Modifier=Modifier) {
     )
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = listOf(
+                data = listOf(
                     75.0,
                     5.0,
                     70.0,
@@ -87,9 +74,9 @@ fun LineSample(modifier: Modifier=Modifier) {
                 curvedEdges = true,
                 popupProperties = popupProperties
             ),
-            Line(
+            Values(
                 label = "Linux",
-                values = listOf(
+                data = listOf(
                     1.0,
                     19.0,
                     22.0,
@@ -104,9 +91,9 @@ fun LineSample(modifier: Modifier=Modifier) {
                 drawStyle = DrawStyle.Stroke(.5.dp),
                 popupProperties = popupProperties.copy(enabled = false)
             ),
-            Line(
+            Values(
                 label = "MacOS",
-                values = listOf(
+                data = listOf(
                     4.0,
                     40.0,
                     58.0,
@@ -126,7 +113,7 @@ fun LineSample(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -151,12 +138,12 @@ fun LineSample(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample2(modifier: Modifier=Modifier) {
+fun LineSample2() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Temperature",
-                values = listOf(
+                data = listOf(
                     28.0,
                     41.0,
                     -15.0,
@@ -175,7 +162,7 @@ fun LineSample2(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -223,12 +210,12 @@ fun LineSample2(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample3(modifier: Modifier=Modifier) {
+fun LineSample3() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = listOf(
+                data = listOf(
                     88.0,
                     56.0,
                     70.0,
@@ -247,9 +234,9 @@ fun LineSample3(modifier: Modifier=Modifier) {
                     strokeColor = SolidColor(Color(0xffF7B731)),
                 )
             ),
-            Line(
+            Values(
                 label = "Linux",
-                values = listOf(
+                data = listOf(
                     30.0,
                     70.0,
                     45.0,
@@ -275,7 +262,7 @@ fun LineSample3(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -320,29 +307,29 @@ fun LineSample3(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample4(modifier: Modifier=Modifier) {
+fun LineSample4() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFF2B8130)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
                 drawStyle = DrawStyle.Stroke(),
                 curvedEdges = true,
             ),
-            Line(
+            Values(
                 label = "Linux",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFFE65100)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
                 drawStyle = DrawStyle.Stroke(),
             ),
-            Line(
+            Values(
                 label = "Android",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFFB71C1C)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
@@ -352,7 +339,7 @@ fun LineSample4(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -388,20 +375,20 @@ fun LineSample4(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample5(modifier: Modifier=Modifier) {
+fun LineSample5() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFFF7B731)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
                 drawStyle = DrawStyle.Stroke(),
             ),
-            Line(
+            Values(
                 label = "Linux",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFF0FB9B1)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
@@ -411,7 +398,7 @@ fun LineSample5(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -454,12 +441,12 @@ fun LineSample5(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample6(modifier: Modifier=Modifier) {
+fun LineSample6() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = listOf(
+                data = listOf(
                     67.0,
                     0.0,
                     88.0,
@@ -481,9 +468,9 @@ fun LineSample6(modifier: Modifier=Modifier) {
                     strokeColor = SolidColor(Color(0xffffffff)),
                 )
             ),
-            Line(
+            Values(
                 label = "Linux",
-                values = listOf(
+                data = listOf(
                     98.0,
                     67.0,
                     15.0,
@@ -510,7 +497,7 @@ fun LineSample6(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -553,12 +540,12 @@ fun LineSample6(modifier: Modifier=Modifier) {
     }
 }
 @Composable
-fun LineSample7(modifier: Modifier=Modifier) {
+fun LineSample7() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Linux",
-                values = listOf(
+                data = listOf(
                     71.0,
                     0.0,
                     100.0,
@@ -578,7 +565,7 @@ fun LineSample7(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
@@ -615,12 +602,12 @@ fun LineSample7(modifier: Modifier=Modifier) {
 }
 
 @Composable
-fun LineSample8(modifier: Modifier=Modifier) {
+fun LineSample8() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Linux",
-                values = listOf(
+                data = listOf(
                     10.0,
                     20.0,
                     7.0,
@@ -638,7 +625,7 @@ fun LineSample8(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize(),
                 data = data,
@@ -669,12 +656,12 @@ fun LineSample8(modifier: Modifier=Modifier) {
 }
 
 @Composable
-fun LineSample9(modifier: Modifier=Modifier) {
+fun LineSample9() {
     val data = remember {
         listOf(
-            Line(
+            Values(
                 label = "Windows",
-                values = MutableList(5) { (0..100).random().toDouble() },
+                data = MutableList(5) { (0..100).random().toDouble() },
                 color = SolidColor(Color(0xFFfd9644)),
                 strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                 gradientAnimationDelay = 1000,
@@ -685,7 +672,7 @@ fun LineSample9(modifier: Modifier=Modifier) {
     }
     ChartParent(modifier=Modifier) {
         Box(modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)){
-            LineChart(
+            ValuesChart(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 22.dp),
