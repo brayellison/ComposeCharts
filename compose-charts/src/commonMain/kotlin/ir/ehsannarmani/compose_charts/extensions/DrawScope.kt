@@ -220,59 +220,51 @@ internal fun DrawScope.drawPopup(
             size = rectSize
         )
         if (rect.top < 0) rect = rect.copy(top = 0f, bottom = rect.height)
-        if (rect.bottom > size.height) rect =
-            rect.copy(top = size.height - rect.height, bottom = size.height)
+        if (rect.bottom > size.height)
+            rect = rect.copy(top = size.height - rect.height, bottom = size.height)
         if (rect.left < 0) rect = rect.copy(left = 0f, right = rect.width)
-        if (rect.right > size.width) rect =
-            rect.copy(left = size.width - rect.width, right = size.width)
+        if (rect.right > size.width)
+            rect = rect.copy(left = size.width - rect.width, right = size.width)
 
-        animatedOffset = Offset(rect.left, rect.top)
+        animatedOffset = Offset(
+            rect.left + popupProperties.contentHorizontalPadding.toPx(),
+            rect.top + popupProperties.contentVerticalPadding.toPx()
+        )
         drawPath(
             path = Path().apply {
-                addRoundRect(
-                    RoundRect(
-                        rect = rect.copy(
-                            top = rect.top,
-                            left = rect.left,
-                        ),
-                        topLeft = CornerRadius(
-                            if (conflictDetected) popupProperties.cornerRadius.toPx() else 0f,
-                            if (conflictDetected) popupProperties.cornerRadius.toPx() else 0f
-                        ),
-                        topRight = CornerRadius(
-                            if (!conflictDetected) popupProperties.cornerRadius.toPx() else 0f,
-                            if (!conflictDetected) popupProperties.cornerRadius.toPx() else 0f
-                        ),
-                        bottomRight = CornerRadius(
-                            popupProperties.cornerRadius.toPx(),
-                            popupProperties.cornerRadius.toPx()
-                        ),
-                        bottomLeft = CornerRadius(
-                            popupProperties.cornerRadius.toPx(),
-                            popupProperties.cornerRadius.toPx()
-                        ),
-                    )
-                )
+                addRoundRect(popupRect(
+                    originalOffset = popup.position,
+                    rect = rect,
+                    left = !conflictDetected,
+                    cornerRadius = popupProperties.cornerRadius.toPx()
+                ))
             },
             color = popupProperties.containerColor,
             alpha = 1f * progress
         )
         drawText(
             textLayoutResult = measureResult,
-            topLeft = animatedOffset.copy(
-                x = animatedOffset.x + popupProperties.contentHorizontalPadding.toPx(),
-                y = animatedOffset.y + popupProperties.contentVerticalPadding.toPx()
-            )
+            topLeft = animatedOffset
         )
     }
 }
 
-val test = 1.0..10.0
-
-fun  ClosedFloatingPointRange<Double>.divideRange(innerPoints: Int): List<Double> {
-    val width = endInclusive - start
-    return (0..<innerPoints+2)
-        .map { start + width*it/(innerPoints + 1) }
+fun popupRect(
+    originalOffset: Offset,
+    rect: Rect,
+    left: Boolean,
+    cornerRadius: Float
+): RoundRect {
+    val roundCorner = CornerRadius(cornerRadius)
+    val sharpCorner = CornerRadius(0f)
+    val bottom = originalOffset.y > rect.top + rect.height/2f
+    return RoundRect(
+        rect = rect,
+        topLeft = if (!bottom && left) sharpCorner else roundCorner,
+        topRight = if (!bottom && !left) sharpCorner else roundCorner,
+        bottomRight = if (bottom && !left) sharpCorner else roundCorner,
+        bottomLeft = if (bottom && left) sharpCorner else roundCorner,
+    )
 }
 
 internal fun DrawScope.getTicksAndDrawLabels(

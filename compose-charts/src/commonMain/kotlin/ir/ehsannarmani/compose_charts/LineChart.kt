@@ -378,11 +378,11 @@ private fun <T> LineChart(
 
         data.forEachIndexed { dataIndex, line ->
             val space = Space(
-                insetPad.toBounds(size),
-                line.xRange.start,
-                line.xRange.end,
-                line.yRange.start,
-                line.yRange.end,
+                bounds = insetPad.toBounds(size),
+                xMin = xMin,
+                xMax = xMax,
+                yMin = yMin,
+                yMax = yMax,
             )
             with(space) {
                 val properties = line.popupProperties ?: popupProperties
@@ -421,8 +421,8 @@ private fun <T> LineChart(
                 if (properties.mode !is PopupProperties.Mode.PointMode || meetsThreshold || isSingleValue) {
                     val (relevantOffset, point) =
                         if (properties.mode is PopupProperties.Mode.PointMode)
-                            innerOffset to offsetToPoint(innerOffset)
-                        else interpolatedInnerOffset to offsetToPoint(interpolatedInnerOffset)
+                            innerOffset to offsetToPoint(innerOffset, true)
+                        else interpolatedInnerOffset to offsetToPoint(interpolatedInnerOffset, true)
                     popups.add(
                         Popup(
                             position = relevantOffset,

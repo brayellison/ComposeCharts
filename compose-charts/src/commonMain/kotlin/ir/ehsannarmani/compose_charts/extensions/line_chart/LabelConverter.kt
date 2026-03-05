@@ -14,8 +14,6 @@ import kotlin.time.Instant
 
 sealed interface LabelConverter<T> {
     fun toNumber(label: T): Number
-
-    //    private fun defaultLabelToString(label: T): String
     fun toString(label: T): String
     fun toLabel(number: Number): T
 
@@ -36,11 +34,6 @@ sealed interface LabelConverter<T> {
         }
     }
 }
-
-// STRING CONVERTER
-//class StringConverter() : LabelConverter<String> {
-//
-//}
 
 // NUMBER CONVERTERS
 class DoubleConverter(val labelToString: ((Double) -> String)?) : LabelConverter<Double> {
