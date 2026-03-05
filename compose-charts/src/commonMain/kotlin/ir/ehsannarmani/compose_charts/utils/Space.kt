@@ -11,9 +11,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope.Companion.DefaultBlendMode
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Fill
-import kotlin.math.absoluteValue
-import kotlin.math.min
-import kotlin.math.sign
 
 class Space(
     val bounds: Bounds,
@@ -98,7 +95,7 @@ fun Path.cubicTo(lastOffset: Offset, nextOffset: Offset) {
     this.cubicTo(centerX, lastOffset.y, centerX, nextOffset.y, nextOffset.x, nextOffset.y)
 }
 
-const val factor = 2f
+//const val factor = 2f
 
 fun Path.cubicFromOffsets(offsets: List<Offset>) {
     if (offsets.isEmpty()) return
@@ -106,7 +103,6 @@ fun Path.cubicFromOffsets(offsets: List<Offset>) {
         this.moveTo(offsets.first())
         return
     }
-    var lastDifference: Offset? = null
     offsets.zipWithNext().forEachIndexed { index, (current, next) ->
         if (index == 0) moveTo(current)
         cubicTo(current, next)
