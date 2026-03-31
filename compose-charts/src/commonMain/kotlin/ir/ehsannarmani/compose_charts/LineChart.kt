@@ -287,7 +287,7 @@ private fun <T> LineChart(
                 end = max(acc.end, line.xRange.end)
             )
         }
-        range.start to range.end
+        min(range.start, labelValues.min()) to max(range.end, labelValues.max())
     }
 
     val indicators = remember(indicatorProperties.indicators, yMin, maxValue) {
