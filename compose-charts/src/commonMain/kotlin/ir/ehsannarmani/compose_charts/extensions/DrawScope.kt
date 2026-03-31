@@ -105,8 +105,7 @@ internal fun DrawScope.drawDots(
                     valueIndex,
                     value.value.toDouble()
                 )
-            ) //&&
-//            valueIndex in startIndex..endIndex
+            )
         ) {
             if (lastPosition != Offset.Unspecified && lastPosition.x >= value.offset.x - 20 || !properties.animationEnabled || dataPoints.count() == 1) {
                 if (!value.animator.isRunning && properties.animationEnabled && value.animator.value != 1f) {

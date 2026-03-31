@@ -95,8 +95,6 @@ fun Path.cubicTo(lastOffset: Offset, nextOffset: Offset) {
     this.cubicTo(centerX, lastOffset.y, centerX, nextOffset.y, nextOffset.x, nextOffset.y)
 }
 
-//const val factor = 2f
-
 fun Path.cubicFromOffsets(offsets: List<Offset>) {
     if (offsets.isEmpty()) return
     if (offsets.size == 1) {
@@ -106,33 +104,5 @@ fun Path.cubicFromOffsets(offsets: List<Offset>) {
     offsets.zipWithNext().forEachIndexed { index, (current, next) ->
         if (index == 0) moveTo(current)
         cubicTo(current, next)
-//        val change = next - current
-//        val after = offsets.getOrNull(index + 2)
-//        val (dx1, dy1) =
-//            if (lastDifference == null) {
-//                this.moveTo(current)
-//                change.x / factor to 0f
-//            }
-//            else lastDifference.x to lastDifference.y
-//        val (dx3, dy3) =
-//            if (after == null) change.x / factor to 0f
-//            else {
-//                val afterNextChange = after - next
-//                val dx3 = min((afterNextChange.x)/factor, change.x / factor)
-//                val afterCurrentChange = (after - current).let { it/it.x*dx3 }
-//                dx3 to afterCurrentChange.y.let {
-//                    if (lastDifference?.y == 0f)
-//                        return@let change.y
-//                    val otherYChange = afterNextChange.y
-//                    val minAbs = min(it.absoluteValue, otherYChange.absoluteValue)
-//                    if (it.sign == otherYChange.sign) {
-//                        minAbs*it.sign
-//                    } else {
-//                        0f
-//                    }
-//                }
-//            }
-//        lastDifference = Offset(dx3, dy3)
-//        this.relativeCubicTo(dx1, dy1, change.x - dx3, change.y - dy3, change.x, change.y)
     }
 }
